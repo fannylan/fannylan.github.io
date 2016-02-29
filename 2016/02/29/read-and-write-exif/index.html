@@ -3,24 +3,37 @@
 <head>
     <meta charset="utf-8">
     
-    <title>Hello World | Fanny&#39;s</title>
+    <title>Android读写图片Exif信息 | Fanny&#39;s</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     
         <meta name="keywords" content="" />
     
-    <meta name="description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
-Quick">
+    <meta name="description" content="需求场景：需要将原始图片缩放之后依旧保留原始图片Exif信息
+解决方案：在原始数据中读取Exif信息，图片缩放之后重新写入
+最简单易用的EXIF信息处理包是metadata-extractor，只可惜只能读，不能写。
+然后发现老旧的MediaUtil，这个可以读可以写，看看AndroidMediaUtil，不是那么好用。
+最后搜到了最佳方案：Android-Exif-Extended
+不得不说搜索">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hello World">
-<meta property="og:url" content="http://yoursite.com/2016/02/29/hello-world/index.html">
+<meta property="og:title" content="Android读写图片Exif信息">
+<meta property="og:url" content="http://yoursite.com/2016/02/29/read-and-write-exif/index.html">
 <meta property="og:site_name" content="Fanny's">
-<meta property="og:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
-Quick">
-<meta property="og:updated_time" content="2016-02-26T11:45:06.919Z">
+<meta property="og:description" content="需求场景：需要将原始图片缩放之后依旧保留原始图片Exif信息
+解决方案：在原始数据中读取Exif信息，图片缩放之后重新写入
+最简单易用的EXIF信息处理包是metadata-extractor，只可惜只能读，不能写。
+然后发现老旧的MediaUtil，这个可以读可以写，看看AndroidMediaUtil，不是那么好用。
+最后搜到了最佳方案：Android-Exif-Extended
+不得不说搜索">
+<meta property="og:image" content="http://yoursite.com/\images\images_types.jpg">
+<meta property="og:updated_time" content="2016-02-29T13:00:29.301Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hello World">
-<meta name="twitter:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
-Quick">
+<meta name="twitter:title" content="Android读写图片Exif信息">
+<meta name="twitter:description" content="需求场景：需要将原始图片缩放之后依旧保留原始图片Exif信息
+解决方案：在原始数据中读取Exif信息，图片缩放之后重新写入
+最简单易用的EXIF信息处理包是metadata-extractor，只可惜只能读，不能写。
+然后发现老旧的MediaUtil，这个可以读可以写，看看AndroidMediaUtil，不是那么好用。
+最后搜到了最佳方案：Android-Exif-Extended
+不得不说搜索">
     
 
     
@@ -98,35 +111,32 @@ Quick">
     </h1>
 </div>
                         <div class="main-body-content">
-                            <article id="post-hello-world" class="article article-single article-type-post" itemscope itemprop="blogPost">
+                            <article id="post-read-and-write-exif" class="article article-single article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
             <header class="article-header">
                 
     
         <h1 class="article-title" itemprop="name">
-        Hello World
+        Android读写图片Exif信息
         </h1>
     
 
             </header>
         
         <div class="article-subtitle">
-            <a href="/2016/02/29/hello-world/" class="article-date">
-    <time datetime="2016-02-29T09:52:04.551Z" itemprop="datePublished">2016-02-29</time>
+            <a href="/2016/02/29/read-and-write-exif/" class="article-date">
+    <time datetime="2016-02-29T13:00:29.304Z" itemprop="datePublished">2016-02-29</time>
 </a>
             
         </div>
         <div class="article-entry" itemprop="articleBody">
-            <p>Welcome to <a href="http://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="http://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="http://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
+            <h1 id=""><a href="#" class="headerlink" title=""></a><img src="\images\images_types.jpg" alt="image"></h1><p>需求场景：需要将原始图片缩放之后依旧保留原始图片Exif信息</p>
+<p>解决方案：在原始数据中读取Exif信息，图片缩放之后重新写入</p>
+<p>最简单易用的EXIF信息处理包是<a href="https://github.com/drewnoakes/metadata-extractor/" target="_blank" rel="external">metadata-extractor</a>，只可惜只能读，不能写。</p>
+<p>然后发现老旧的<a href="http://mediachest.sourceforge.net/mediautil/" target="_blank" rel="external">MediaUtil</a>，这个可以读可以写，看看<a href="https://github.com/bkhall/AndroidMediaUtil" target="_blank" rel="external">AndroidMediaUtil</a>，不是那么好用。</p>
+<p>最后搜到了最佳方案：<br><a href="https://github.com/sephiroth74/Android-Exif-Extended/" target="_blank" rel="external">Android-Exif-Extended</a></p>
+<p>不得不说搜索也是一门功夫，特地去查了搜索路径，一般来说用中文搜索是无果的。</p>
 
         </div>
         <footer class="article-footer">
@@ -134,7 +144,7 @@ Quick">
 
 
 
-    <a data-url="http://yoursite.com/2016/02/29/hello-world/" data-id="cil7up12u0000hwfp27ih5uzl" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
+    <a data-url="http://yoursite.com/2016/02/29/read-and-write-exif/" data-id="cil7zu7qa0000z0fp2ph897do" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
 <script>
     (function ($) {
         $('body').on('click', function() {
@@ -257,10 +267,10 @@ Quick">
                     <li>
                         
                         <div class="item-thumbnail">
-                            <a href="/2016/02/29/hello-world/" class="thumbnail">
+                            <a href="/2016/02/29/read-and-write-exif/" class="thumbnail">
     
     
-        <span class="thumbnail-image thumbnail-none"></span>
+        <span style="background-image:url(/\images\images_types.jpg)" alt="Android读写图片Exif信息" class="thumbnail-image"></span>
     
     
 </a>
@@ -268,8 +278,8 @@ Quick">
                         
                         <div class="item-inner">
                             <p class="item-category"></p>
-                            <p class="item-title"><a href="/2016/02/29/hello-world/" class="title">Hello World</a></p>
-                            <p class="item-date"><time datetime="2016-02-29T09:52:04.551Z" itemprop="datePublished">2016-02-29</time></p>
+                            <p class="item-title"><a href="/2016/02/29/read-and-write-exif/" class="title">Android读写图片Exif信息</a></p>
+                            <p class="item-date"><time datetime="2016-02-29T13:00:29.304Z" itemprop="datePublished">2016-02-29</time></p>
                         </div>
                     </li>
                 
@@ -339,7 +349,7 @@ Quick">
     var disqus_shortname = 'hexo-theme-hueman';
     
     
-    var disqus_url = 'http://yoursite.com/2016/02/29/hello-world/';
+    var disqus_url = 'http://yoursite.com/2016/02/29/read-and-write-exif/';
     
     (function() {
     var dsq = document.createElement('script');

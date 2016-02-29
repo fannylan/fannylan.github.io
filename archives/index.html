@@ -111,17 +111,17 @@
         <article class="article article-summary">
     <div class="article-summary-inner">
         
-        <a href="/2016/02/29/hello-world/" class="thumbnail">
+        <a href="/2016/02/29/read-and-write-exif/" class="thumbnail">
     
     
-        <span class="thumbnail-image thumbnail-none"></span>
+        <span style="background-image:url(/\images\images_types.jpg)" alt="Android读写图片Exif信息" class="thumbnail-image"></span>
     
     
         
 <span class="comment-counter">
     <i class="fa fa-comments-o"></i>
     
-        <span class="disqus-comment-count" data-disqus-url="http://yoursite.com/2016/02/29/hello-world/">0</span>
+        <span class="disqus-comment-count" data-disqus-url="http://yoursite.com/2016/02/29/read-and-write-exif/">0</span>
     
 </span>
 
@@ -132,18 +132,22 @@
             <p class="category">
             
             </p>
-            <p class="date"><time datetime="2016-02-29T09:52:04.551Z" itemprop="datePublished">2016-02-29</time></p>
+            <p class="date"><time datetime="2016-02-29T13:00:29.304Z" itemprop="datePublished">2016-02-29</time></p>
         </div>
         
     
         <h1 class="article-title" itemprop="name">
-        <a href="/2016/02/29/hello-world/">Hello World</a>
+        <a href="/2016/02/29/read-and-write-exif/">Android读写图片Exif信息</a>
         </h1>
     
 
         <p class="article-excerpt">
-            Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
-Quick
+            需求场景：需要将原始图片缩放之后依旧保留原始图片Exif信息
+解决方案：在原始数据中读取Exif信息，图片缩放之后重新写入
+最简单易用的EXIF信息处理包是metadata-extractor，只可惜只能读，不能写。
+然后发现老旧的MediaUtil，这个可以读可以写，看看AndroidMediaUtil，不是那么好用。
+最后搜到了最佳方案：Android-Exif-Extended
+不得不说搜索
         </p>
     </div>
 </article>
@@ -203,10 +207,10 @@ Quick
                     <li>
                         
                         <div class="item-thumbnail">
-                            <a href="/2016/02/29/hello-world/" class="thumbnail">
+                            <a href="/2016/02/29/read-and-write-exif/" class="thumbnail">
     
     
-        <span class="thumbnail-image thumbnail-none"></span>
+        <span style="background-image:url(/\images\images_types.jpg)" alt="Android读写图片Exif信息" class="thumbnail-image"></span>
     
     
 </a>
@@ -214,8 +218,8 @@ Quick
                         
                         <div class="item-inner">
                             <p class="item-category"></p>
-                            <p class="item-title"><a href="/2016/02/29/hello-world/" class="title">Hello World</a></p>
-                            <p class="item-date"><time datetime="2016-02-29T09:52:04.551Z" itemprop="datePublished">2016-02-29</time></p>
+                            <p class="item-title"><a href="/2016/02/29/read-and-write-exif/" class="title">Android读写图片Exif信息</a></p>
+                            <p class="item-date"><time datetime="2016-02-29T13:00:29.304Z" itemprop="datePublished">2016-02-29</time></p>
                         </div>
                     </li>
                 

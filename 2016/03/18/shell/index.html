@@ -20,9 +20,9 @@
 <meta property="og:site_name" content="Fanny's">
 <meta property="og:description" content="主要讨论Android APK的加壳技术，主要是讨论加壳方式，原理，以及应用在实际工程中遇到的问题和解决方案。撇开其他第三方的Android  APK加固工具和加固方式，这里只讨论手动的加壳保护。
 加壳保护是在不影响app的运行效率和app开发效率的的前提下，防止他人直接对APK进行反编译，提高Android app的安全性，保护开发成果的一种方式。原理就是当壳程序运行的时候，真正的源程序被解密并">
-<meta property="og:image" content="https://d1zjcuqflbd5k.cloudfront.net/files/acc_467455/10Z61?response-content-disposition=inline;%20filename=S60321-110746.jpg&Expires=1458543065&Signature=g3-5kRG6r9TrPKF8rcQ~Sd0uLMPnr5xGNDEbdy~bGjq7Q0z-mvcHjf9QNw-OvqQvSnMyoEMiGwGsuMqHvkEbhSx-FHIjPyfbRBqAt6tGPj9eUxji~A55iFhWwYVcFifVNYa2TdmDKw~HdTSLTYAcnAjYujO2LXoMKXQraC9eHuw_&Key-Pair-Id=APKAJTEIOJM3LSMN33SA">
-<meta property="og:image" content="https://d1zjcuqflbd5k.cloudfront.net/files/acc_467455/1gGAw?response-content-disposition=inline;%20filename=S60321-110811.jpg&Expires=1458542898&Signature=FifVugG~FB2DsnersjxZVjG-WmMuDcQGOFOrol3zJDakuMlWnN1bc~M5XSaUd8h99epJ-s8n8qsowy5SQ-Uc8a6jWFzdBcEwWutZ5nM8KiOeQWpReGV33C8hS7S~y-2AMhtD~1tfYBu0QH5eWMHgyHBH3WJlmMPmh5AacfqBmAg_&Key-Pair-Id=APKAJTEIOJM3LSMN33SA">
-<meta property="og:updated_time" content="2016-03-21T06:50:08.896Z">
+<meta property="og:image" content="https://d1zjcuqflbd5k.cloudfront.net/files/acc_467455/10Z61?response-content-disposition=inline;%20filename=S60321-110746.jpg&Expires=1458543614&Signature=P9teKFn~4dEcPP4lv9V8cJfVPr9SONbUaRLmawJIUvRD-toUcL9mDc56Zv9XMIT5-rmvjodZ6T0n-ILIEqqxSYb4m08HZc6fDdPBzdUDe1aeuoZpkZsFcis1tl1wuqHVJ2AaXnjnzA~CBPBk3NhJhodE2pulP2Ypq~TrAjRdaHg_&Key-Pair-Id=APKAJTEIOJM3LSMN33SA">
+<meta property="og:image" content="https://d1zjcuqflbd5k.cloudfront.net/files/acc_467455/1gGAw?response-content-disposition=inline;%20filename=S60321-110811.jpg&Expires=1458543621&Signature=VOtlz0AyztjRFK-pTneNeMjo4bfv-RXZsWV1qbZVL8DcWKLip976heyfDOMWswhvNuQ-fftTvooBDGTQqfBBdYmRaOvVpyDuOW6-6owS3H98Z6~41HLEkRLeMoE~RJZOKtjB31vRBkvE8TUt6k4BwRujdcFbpaAcTpZ-p4ysKJI_&Key-Pair-Id=APKAJTEIOJM3LSMN33SA">
+<meta property="og:updated_time" content="2016-03-21T06:55:56.135Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android apk 防止反编译：加壳保护方案">
 <meta name="twitter:description" content="主要讨论Android APK的加壳技术，主要是讨论加壳方式，原理，以及应用在实际工程中遇到的问题和解决方案。撇开其他第三方的Android  APK加固工具和加固方式，这里只讨论手动的加壳保护。
@@ -228,8 +228,8 @@
 <p>后来了解到了<a href="https://github.com/wequick/Small" target="_blank" rel="external">Small</a>，一个插件框架，使用该框架的工程就像一个壳程序（宿主程序），里面的插件模块就像一个个相互独立的源程序模块，在代码组织和管理上有很大的便利性。</p>
 <p><em>Small Sample代码解读</em></p>
 <p>先将源码编译出一个包来，安装，应用先进入启动页，然后首页。首页分两个tab ,可以滑动，还有页面的简单跳转。</p>
-<p><img src="https://d1zjcuqflbd5k.cloudfront.net/files/acc_467455/10Z61?response-content-disposition=inline;%20filename=S60321-110746.jpg&amp;Expires=1458543065&amp;Signature=g3-5kRG6r9TrPKF8rcQ~Sd0uLMPnr5xGNDEbdy~bGjq7Q0z-mvcHjf9QNw-OvqQvSnMyoEMiGwGsuMqHvkEbhSx-FHIjPyfbRBqAt6tGPj9eUxji~A55iFhWwYVcFifVNYa2TdmDKw~HdTSLTYAcnAjYujO2LXoMKXQraC9eHuw_&amp;Key-Pair-Id=APKAJTEIOJM3LSMN33SA" alt="pic"></p>
-<p><img src="https://d1zjcuqflbd5k.cloudfront.net/files/acc_467455/1gGAw?response-content-disposition=inline;%20filename=S60321-110811.jpg&amp;Expires=1458542898&amp;Signature=FifVugG~FB2DsnersjxZVjG-WmMuDcQGOFOrol3zJDakuMlWnN1bc~M5XSaUd8h99epJ-s8n8qsowy5SQ-Uc8a6jWFzdBcEwWutZ5nM8KiOeQWpReGV33C8hS7S~y-2AMhtD~1tfYBu0QH5eWMHgyHBH3WJlmMPmh5AacfqBmAg_&amp;Key-Pair-Id=APKAJTEIOJM3LSMN33SA" alt="pic"></p>
+<p><img src="https://d1zjcuqflbd5k.cloudfront.net/files/acc_467455/10Z61?response-content-disposition=inline;%20filename=S60321-110746.jpg&amp;Expires=1458543614&amp;Signature=P9teKFn~4dEcPP4lv9V8cJfVPr9SONbUaRLmawJIUvRD-toUcL9mDc56Zv9XMIT5-rmvjodZ6T0n-ILIEqqxSYb4m08HZc6fDdPBzdUDe1aeuoZpkZsFcis1tl1wuqHVJ2AaXnjnzA~CBPBk3NhJhodE2pulP2Ypq~TrAjRdaHg_&amp;Key-Pair-Id=APKAJTEIOJM3LSMN33SA" alt="pic"></p>
+<p><img src="https://d1zjcuqflbd5k.cloudfront.net/files/acc_467455/1gGAw?response-content-disposition=inline;%20filename=S60321-110811.jpg&amp;Expires=1458543621&amp;Signature=VOtlz0AyztjRFK-pTneNeMjo4bfv-RXZsWV1qbZVL8DcWKLip976heyfDOMWswhvNuQ-fftTvooBDGTQqfBBdYmRaOvVpyDuOW6-6owS3H98Z6~41HLEkRLeMoE~RJZOKtjB31vRBkvE8TUt6k4BwRujdcFbpaAcTpZ-p4ysKJI_&amp;Key-Pair-Id=APKAJTEIOJM3LSMN33SA" alt="pic"></p>
 <p>看源码目录结构，可以看到有如下几个模块：<br>-app<br>-app.detail<br>-app.home<br>-app.main<br>-app.mine<br>-web.about</p>
 <p>app就是壳程序（宿主程序），app中的逻辑很少，只有一个代理Activity，主要是启动main模块然后finish。</p>
 <p>关键代码如下，BaseUri按照自己需要的设置，具体方式见<a href="https://github.com/wequick/Small/tree/master/Android" target="_blank" rel="external">Small/Android</a>。</p>

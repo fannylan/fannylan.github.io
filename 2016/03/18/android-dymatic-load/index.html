@@ -20,9 +20,9 @@
 <meta property="og:site_name" content="Fanny's">
 <meta property="og:description" content="主要讨论Android APK的加壳技术，主要是讨论加壳方式，原理，以及应用在实际工程中遇到的问题和解决方案。撇开其他第三方的Android  APK加固工具和加固方式，这里只讨论手动的加壳保护。
 加壳保护是在不影响app的运行效率和app开发效率的的前提下，防止他人直接对APK进行反编译，提高Android app的安全性，保护开发成果的一种方式。原理就是当壳程序运行的时候，真正的源程序被解密并">
-<meta property="og:image" content="http://i1.dix0.com/doimg/bf1a5n1n1y8l9a9n6.jpg">
-<meta property="og:image" content="http://i1.dix0.com/doimg/7faa0nan3y1lba8n9.jpg">
-<meta property="og:updated_time" content="2016-03-21T07:34:40.071Z">
+<meta property="og:image" content="http://i1.dix0.com/doimg/5facnn3yl2an54691.jpg">
+<meta property="og:image" content="http://i1.dix0.com/doimg/8fa5nn8yl1an45547.jpg">
+<meta property="og:updated_time" content="2016-03-21T09:37:08.475Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android apk 防止反编译：加壳保护方案">
 <meta name="twitter:description" content="主要讨论Android APK的加壳技术，主要是讨论加壳方式，原理，以及应用在实际工程中遇到的问题和解决方案。撇开其他第三方的Android  APK加固工具和加固方式，这里只讨论手动的加壳保护。
@@ -228,8 +228,7 @@
 <p>后来了解到了<a href="https://github.com/wequick/Small" target="_blank" rel="external">Small</a>，一个插件框架，使用该框架的工程就像一个壳程序（宿主程序），里面的插件模块就像一个个相互独立的源程序模块，在代码组织和管理上有很大的便利性。</p>
 <p><em>Small Sample代码解读</em></p>
 <p>先将源码编译出一个包来，安装，应用先进入启动页，然后首页。首页分两个tab ,可以滑动，还有页面的简单跳转。</p>
-<p><img src="http://i1.dix0.com/doimg/bf1a5n1n1y8l9a9n6.jpg" alt="pic"></p>
-<p><img src="http://i1.dix0.com/doimg/7faa0nan3y1lba8n9.jpg" alt="pic"></p>
+<p><img src="http://i1.dix0.com/doimg/5facnn3yl2an54691.jpg" alt="pic"><br><img src="http://i1.dix0.com/doimg/8fa5nn8yl1an45547.jpg" alt="pic"></p>
 <p>看源码目录结构，可以看到有如下几个模块：<br>-app<br>-app.detail<br>-app.home<br>-app.main<br>-app.mine<br>-web.about</p>
 <p>app就是壳程序（宿主程序），app中的逻辑很少，只有一个代理Activity，主要是启动main模块然后finish。</p>
 <p>关键代码如下，BaseUri按照自己需要的设置，具体方式见<a href="https://github.com/wequick/Small/tree/master/Android" target="_blank" rel="external">Small/Android</a>。</p>

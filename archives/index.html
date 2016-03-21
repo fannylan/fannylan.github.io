@@ -250,9 +250,15 @@
 <figure class="highlight accesslog"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Fragment fragment = Small.createObject(<span class="string">"fragment-v4"</span>, sUris<span class="string">[position]</span>, MainActivity.this);</span><br></pre></td></tr></table></figure>
 <p>打开网页</p>
 <figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Small.openUri(<span class="string">"https://github.com/wequick/Small/issues"</span>, MainActivity.<span class="keyword">this</span>);</span><br></pre></td></tr></table></figure>
-<p>引用AndroidLib，其中style utils都是以插件的方式，是独立模块</p>
+<p>引用AndroidLib，其中style utils都是以插件的方式，是独立模块，在app.main模块中使用：</p>
 <figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">compile <span class="function"><span class="title">project</span><span class="params">(<span class="string">':lib.style'</span>)</span></span></span><br><span class="line">compile <span class="function"><span class="title">project</span><span class="params">(<span class="string">':lib.utils'</span>)</span></span></span><br></pre></td></tr></table></figure>
 <p>其余几个模块类似。</p>
+<p>根据实际的项目需要，将Small这个框架引入实际工程中也是类似的思路。</p>
+<ol>
+<li>整个源程序将由壳程序和源程序模块组成。</li>
+<li>按项目复杂程度来决定，entity，utils，constant等一些基础包的分包粒度。项目不复杂，可以将基础包统一规划入一个模块中。</li>
+<li>按照项目各个模块的重要程度，决定应用插件化的百分比。如果每个模块都很重要，都需要保护实现细节，就可以按照Small Sample的工程结构来组织。</li>
+</ol>
 <p><strong>其他</strong></p>
 <p>反编译apk的一些工具：<br><a href="http://ibotpeaches.github.io/Apktool/" target="_blank" rel="external">ApkTool</a><br><a href="https://github.com/pxb1988/dex2jar" target="_blank" rel="external">dex2jar</a><br><a href="http://jd.benow.ca/" target="_blank" rel="external">jdgui</a><br><a href="(https://github.com/skylot/jadx">JADX</a>)</p>
 <p><a href="https://github.com/ashishb/android-security-awesome" target="_blank" rel="external">android-security-awesome</a></p>

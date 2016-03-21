@@ -8,7 +8,7 @@
 
 <title>
   
-    彙整: 2016/3
+    归档: 2016/3
   
 </title>
 
@@ -80,21 +80,21 @@
           
             
               <li class="category-list-container">
-                <a href="javascript:;">類別</a>
+                <a href="javascript:;">分类</a>
                 
               </li>
             
           
             
               <li class="tag-list-container">
-                <a href="javascript:;">標籤</a>
+                <a href="javascript:;">标签</a>
                 <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/some-tags-here/">some tags here</a><span class="tag-list-count">1</span></li></ul>
               </li>
             
           
             
               <li class="archive-list-container">
-                <a href="javascript:;">彙整</a>
+                <a href="javascript:;">归档</a>
                 <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/">2016</a><span class="archive-list-count">5</span></li></ul>
               </li>
             
@@ -164,7 +164,7 @@
 
     <div class="post-list-item article">
       <h3 class="article-header">
-        <a href="/2016/03/18/shell/" >
+        <a href="/2016/03/18/shell-and-unshell/" >
   Android apk 防止反编译：加壳保护方案
 </a>
 
@@ -172,7 +172,7 @@
       
 
       <div class="article-info">
-        <a href="/2016/03/18/shell/"><span class="article-date">
+        <a href="/2016/03/18/shell-and-unshell/"><span class="article-date">
   2016-03-18
 </span>
 </a>
@@ -239,8 +239,8 @@
 <p>后来了解到了<a href="https://github.com/wequick/Small" target="_blank" rel="external">Small</a>，一个插件框架，使用该框架的工程就像一个壳程序（宿主程序），里面的插件模块就像一个个相互独立的源程序模块，在代码组织和管理上有很大的便利性。</p>
 <p><em>Small Sample代码解读</em></p>
 <p>先将源码编译出一个包来，安装，应用先进入启动页，然后首页。首页分两个tab ,可以滑动，还有页面的简单跳转。</p>
-<p><img src="https://d1zjcuqflbd5k.cloudfront.net/files/acc_467455/10Z61?response-content-disposition=inline;%20filename=S60321-110746.jpg&amp;Expires=1458543614&amp;Signature=P9teKFn~4dEcPP4lv9V8cJfVPr9SONbUaRLmawJIUvRD-toUcL9mDc56Zv9XMIT5-rmvjodZ6T0n-ILIEqqxSYb4m08HZc6fDdPBzdUDe1aeuoZpkZsFcis1tl1wuqHVJ2AaXnjnzA~CBPBk3NhJhodE2pulP2Ypq~TrAjRdaHg_&amp;Key-Pair-Id=APKAJTEIOJM3LSMN33SA" alt="pic"></p>
-<p><img src="https://d1zjcuqflbd5k.cloudfront.net/files/acc_467455/1gGAw?response-content-disposition=inline;%20filename=S60321-110811.jpg&amp;Expires=1458543621&amp;Signature=VOtlz0AyztjRFK-pTneNeMjo4bfv-RXZsWV1qbZVL8DcWKLip976heyfDOMWswhvNuQ-fftTvooBDGTQqfBBdYmRaOvVpyDuOW6-6owS3H98Z6~41HLEkRLeMoE~RJZOKtjB31vRBkvE8TUt6k4BwRujdcFbpaAcTpZ-p4ysKJI_&amp;Key-Pair-Id=APKAJTEIOJM3LSMN33SA" alt="pic"></p>
+<p><img src="../images/S60321-110746.jpg" alt="pic"></p>
+<p><img src="../images/S60321-110811.jpg" alt="pic"></p>
 <p>看源码目录结构，可以看到有如下几个模块：<br>-app<br>-app.detail<br>-app.home<br>-app.main<br>-app.mine<br>-web.about</p>
 <p>app就是壳程序（宿主程序），app中的逻辑很少，只有一个代理Activity，主要是启动main模块然后finish。</p>
 <p>关键代码如下，BaseUri按照自己需要的设置，具体方式见<a href="https://github.com/wequick/Small/tree/master/Android" target="_blank" rel="external">Small/Android</a>。</p>

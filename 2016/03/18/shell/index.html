@@ -20,7 +20,7 @@
 <meta property="og:site_name" content="Fanny's">
 <meta property="og:description" content="主要讨论Android APK的加壳技术，主要是讨论加壳方式，原理，以及应用在实际工程中遇到的问题和解决方案。撇开其他第三方的Android  APK加固工具和加固方式，这里只讨论手动的加壳保护。
 加壳保护是在不影响app的运行效率和app开发效率的的前提下，防止他人直接对APK进行反编译，提高Android app的安全性，保护开发成果的一种方式。原理就是当壳程序运行的时候，真正的源程序被解密并">
-<meta property="og:updated_time" content="2016-03-21T04:47:29.005Z">
+<meta property="og:updated_time" content="2016-03-21T04:51:25.572Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android apk 防止反编译：加壳保护方案">
 <meta name="twitter:description" content="主要讨论Android APK的加壳技术，主要是讨论加壳方式，原理，以及应用在实际工程中遇到的问题和解决方案。撇开其他第三方的Android  APK加固工具和加固方式，这里只讨论手动的加壳保护。
@@ -84,21 +84,21 @@
           
             
               <li class="category-list-container">
-                <a href="javascript:;">Category</a>
+                <a href="javascript:;">類別</a>
                 
               </li>
             
           
             
               <li class="tag-list-container">
-                <a href="javascript:;">Tag</a>
+                <a href="javascript:;">標籤</a>
                 <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/some-tags-here/">some tags here</a><span class="tag-list-count">1</span></li></ul>
               </li>
             
           
             
               <li class="archive-list-container">
-                <a href="javascript:;">Archive</a>
+                <a href="javascript:;">彙整</a>
                 <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/">2016</a><span class="archive-list-count">5</span></li></ul>
               </li>
             
@@ -190,10 +190,7 @@
 <p>3.加壳程序：将源程序编译出来的apk加密写入壳程序的dex文件中</p>
 <p>  通过加壳程序将source.apk写入壳程序的class.dex，再把新合成的的class.dex放回shell.apk, 替换旧的class.dex，重新签名 。</p>
 <p><strong>遇到的问题：</strong></p>
-<ol>
-<li>最后一步不能正确签名导致包无法解析，或者无法安装APK，以debug key签名示例 , 正确的方式：<br>JDK 1.7要加  -digestalg SHA1 -sigalg MD5withRSA<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">jarsigner -verbose -keystore debug<span class="class">.keystore</span> -sigfile CERT -digestalg SHA1 -sigalg MD5withRSA  -signedjar final<span class="class">.apk</span> shell<span class="class">.apk</span> androiddebugkey</span><br><span class="line"></span><br><span class="line">输入密钥库的密码短语:</span><br><span class="line"></span><br><span class="line"> 正在更新: META-INF/MANIFEST<span class="class">.MF</span></span><br><span class="line"> </span><br><span class="line">  正在添加: META-INF/CERT<span class="class">.SF</span></span><br><span class="line">   </span><br><span class="line">  正在添加: META-INF/CERT<span class="class">.RSA</span></span><br><span class="line">   </span><br><span class="line">  正在签名: AndroidManifest<span class="class">.xml</span></span><br><span class="line">  </span><br><span class="line">  正在签名: classes<span class="class">.dex</span></span><br><span class="line">  </span><br><span class="line">jar 已签名。</span><br><span class="line"></span><br><span class="line">警告:</span><br><span class="line">未提供 -tsa 或 -tsacert, 此 jar 没有时间戳。如果没有时间戳, 则在签名者证书的到期</span><br><span class="line">日期 (<span class="number">2045</span>-<span class="number">11</span>-<span class="number">25</span>) 或以后的任何撤销日期之后, 用户可能无法验证此 jar。</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
+<p>最后一步不能正确签名导致包无法解析，或者无法安装APK，以debug key签名示例 , 正确的方式：<br>JDK 1.7要加  -digestalg SHA1 -sigalg MD5withRSA<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">jarsigner -verbose -keystore debug<span class="class">.keystore</span> -sigfile CERT -digestalg SHA1 -sigalg MD5withRSA  -signedjar final<span class="class">.apk</span> shell<span class="class">.apk</span> androiddebugkey</span><br><span class="line"></span><br><span class="line">输入密钥库的密码短语:</span><br><span class="line"></span><br><span class="line"> 正在更新: META-INF/MANIFEST<span class="class">.MF</span></span><br><span class="line"> </span><br><span class="line">  正在添加: META-INF/CERT<span class="class">.SF</span></span><br><span class="line">   </span><br><span class="line">  正在添加: META-INF/CERT<span class="class">.RSA</span></span><br><span class="line">   </span><br><span class="line">  正在签名: AndroidManifest<span class="class">.xml</span></span><br><span class="line">  </span><br><span class="line">  正在签名: classes<span class="class">.dex</span></span><br><span class="line">  </span><br><span class="line">jar 已签名。</span><br><span class="line"></span><br><span class="line">警告:</span><br><span class="line">未提供 -tsa 或 -tsacert, 此 jar 没有时间戳。如果没有时间戳, 则在签名者证书的到期</span><br><span class="line">日期 (<span class="number">2045</span>-<span class="number">11</span>-<span class="number">25</span>) 或以后的任何撤销日期之后, 用户可能无法验证此 jar。</span><br></pre></td></tr></table></figure></p>
 <figure class="highlight fortran"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">验证是否正确的签名：</span><br><span class="line">jarsigner -<span class="built_in">verify</span> <span class="keyword">final</span>.apk</span><br></pre></td></tr></table></figure>
 <p>没有时间戳那个加上 -tsa <a href="https://timestamp.geotrust.com/" target="_blank" rel="external">https://timestamp.geotrust.com/</a>  但是会出现java.net.UnknownHostException: timestamp.digicert.com</p>
 <ol>
@@ -249,7 +246,7 @@
   <footer class="article-footer">
     
   <div class="cc">
-    <a href="http://creativecommons.org/licenses/by-sa/4.0/deed.en" target="_blank" title="Attribution-ShareAlike">
+    <a href="http://creativecommons.org/licenses/by-sa/4.0/deed.en" target="_blank" title="姓名標示-相同方式分享">
       <img src="/images/cc/cc.png">
       
           <img src="/images/cc/by.png">
@@ -257,7 +254,7 @@
           <img src="/images/cc/sa.png">
       
       <span>
-        This work is licensed under a Creative Commons Attribution-ShareAlike 4.0 International License.
+        本著作係採用創用 CC 姓名標示-相同方式分享 4.0 國際 授權條款授權.
       </span>
     </a>
   </div>

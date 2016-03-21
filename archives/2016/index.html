@@ -8,7 +8,7 @@
 
 <title>
   
-    归档: 2016
+    彙整: 2016
   
 </title>
 
@@ -80,21 +80,21 @@
           
             
               <li class="category-list-container">
-                <a href="javascript:;">分类</a>
+                <a href="javascript:;">類別</a>
                 
               </li>
             
           
             
               <li class="tag-list-container">
-                <a href="javascript:;">标签</a>
+                <a href="javascript:;">標籤</a>
                 <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/some-tags-here/">some tags here</a><span class="tag-list-count">1</span></li></ul>
               </li>
             
           
             
               <li class="archive-list-container">
-                <a href="javascript:;">归档</a>
+                <a href="javascript:;">彙整</a>
                 <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/">2016</a><span class="archive-list-count">5</span></li></ul>
               </li>
             
@@ -164,7 +164,7 @@
 
     <div class="post-list-item article">
       <h3 class="article-header">
-        <a href="/2016/03/18/shell-and-unshell/" >
+        <a href="/2016/03/18/android-dymatic-load/" >
   Android apk 防止反编译：加壳保护方案
 </a>
 
@@ -172,7 +172,7 @@
       
 
       <div class="article-info">
-        <a href="/2016/03/18/shell-and-unshell/"><span class="article-date">
+        <a href="/2016/03/18/android-dymatic-load/"><span class="article-date">
   2016-03-18
 </span>
 </a>
@@ -239,8 +239,8 @@
 <p>后来了解到了<a href="https://github.com/wequick/Small" target="_blank" rel="external">Small</a>，一个插件框架，使用该框架的工程就像一个壳程序（宿主程序），里面的插件模块就像一个个相互独立的源程序模块，在代码组织和管理上有很大的便利性。</p>
 <p><em>Small Sample代码解读</em></p>
 <p>先将源码编译出一个包来，安装，应用先进入启动页，然后首页。首页分两个tab ,可以滑动，还有页面的简单跳转。</p>
-<p><img src="../images/S60321-110746.jpg" alt="pic"></p>
-<p><img src="../images/S60321-110811.jpg" alt="pic"></p>
+<p><img src="http://i1.dix0.com/doimg/bf1a5n1n1y8l9a9n6.jpg" alt="pic"></p>
+<p><img src="http://i1.dix0.com/doimg/7faa0nan3y1lba8n9.jpg" alt="pic"></p>
 <p>看源码目录结构，可以看到有如下几个模块：<br>-app<br>-app.detail<br>-app.home<br>-app.main<br>-app.mine<br>-web.about</p>
 <p>app就是壳程序（宿主程序），app中的逻辑很少，只有一个代理Activity，主要是启动main模块然后finish。</p>
 <p>关键代码如下，BaseUri按照自己需要的设置，具体方式见<a href="https://github.com/wequick/Small/tree/master/Android" target="_blank" rel="external">Small/Android</a>。</p>

@@ -118,7 +118,7 @@ body {
   -webkit-text-size-adjust: 100%;
 }
 .outer {
-  max-width: 9%;
+  max-width: 90%;
   margin: 0 auto;
 }
 .outer:before,

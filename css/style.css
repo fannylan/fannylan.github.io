@@ -118,7 +118,7 @@ body {
   -webkit-text-size-adjust: 100%;
 }
 .outer {
-  max-width: 60%;
+  max-width: 9%;
   margin: 0 auto;
 }
 .outer:before,
@@ -132,7 +132,6 @@ body {
 @media screen and (max-width: 839px) {
   .outer {
     padding: 0 20px;
-    max-width: 90%;
   }
 }
 .left,

@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>DatePickerDialog的使用 - Fanny&#39;s</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="DatePickerDialog就是那个选时间的控件，控件的使用不难，但是有几处坑要注意一下。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="DatePickerDialog的使用">
+<meta property="og:url" content="http://yoursite.com/2016/03/28/datepickerdialog/index.html">
+<meta property="og:site_name" content="Fanny's">
+<meta property="og:description" content="DatePickerDialog就是那个选时间的控件，控件的使用不难，但是有几处坑要注意一下。">
+<meta property="og:updated_time" content="2016-04-22T11:00:42.419Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="DatePickerDialog的使用">
+<meta name="twitter:description" content="DatePickerDialog就是那个选时间的控件，控件的使用不难，但是有几处坑要注意一下。">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="/webfonts/ptserif/main.css" rel='stylesheet' type='text/css'>
+  <link href="/webfonts/source-code-pro/main.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <header id="header">
+  <div id="header-outer" class="outer">
+    <div id="header-inner" class="inner">
+      <a id="main-nav-toggle" class="nav-icon" href="javascript:;"></a>
+      <a id="logo" class="logo" href="/"></a>
+      <nav id="main-nav">
+        
+          <a class="main-nav-link" href="/">主页</a>
+        
+          <a class="main-nav-link" href="/archives">目录</a>
+        
+          <a class="main-nav-link" href="/categories">分类</a>
+        
+          <a class="main-nav-link" href="/tags">标签</a>
+        
+          <a class="main-nav-link" href="/about">关于</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        <div id="search-form-wrap">
+          <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+        </div>
+      </nav>
+    </div>
+  </div>
+</header>
+    <section id="main" class="outer"><article id="post-datepickerdialog" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      DatePickerDialog的使用
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-meta">
+      <a href="/2016/03/28/datepickerdialog/" class="article-date">
+  <time datetime="2016-03-28T03:38:09.000Z" itemprop="datePublished">2016-03-28</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Android-Dev/">Android Dev</a>
+  </div>
+
+      
+    </div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>DatePickerDialog就是那个选时间的控件，控件的使用不难，但是有几处坑要注意一下。<br><a id="more"></a><br>先看看基本使用方法：</p>
+<figure class="highlight aspectj"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">DatePickerDialog datePickerDialog = <span class="keyword">new</span> DatePickerDialog(<span class="keyword">this</span>, <span class="keyword">new</span> DatePickerDialog.OnDateSetListener() &#123;</span><br><span class="line">    <span class="annotation">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">onDateSet</span><span class="params">(DatePicker view, <span class="keyword">int</span> year, <span class="keyword">int</span> monthOfYear, <span class="keyword">int</span> dayOfMonth)</span> </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;, defaultYear, defaultMonth,  defaultDay);</span><br><span class="line">datePickerDialog.show();</span><br></pre></td></tr></table></figure>
+<p>设置初始化值，设置回调，很简单。第一个坑来了：</p>
+<p>1.设置初始化时间：</p>
+<p>构造函数的注释， 没有什么异常的地方：</p>
+<figure class="highlight zephir"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span><br><span class="line"> * <span class="doctag">@param</span> context The context the dialog is to run in.</span><br><span class="line"> * <span class="doctag">@param</span> callBack How the parent is notified that the date is set.</span><br><span class="line"> * <span class="doctag">@param</span> year The initial year of the dialog.</span><br><span class="line"> * <span class="doctag">@param</span> monthOfYear The initial month of the dialog.</span><br><span class="line"> * <span class="doctag">@param</span> dayOfMonth The initial day of the dialog.</span><br><span class="line"> */</span></span><br><span class="line">     <span class="keyword">public</span> DatePickerDialog(Context context,</span><br><span class="line">        OnDateSetListener callBack,</span><br><span class="line">        <span class="keyword">int</span> year,</span><br><span class="line">        <span class="keyword">int</span> monthOfYear,</span><br><span class="line">        <span class="keyword">int</span> dayOfMonth) &#123;</span><br><span class="line">    this(context, <span class="number">0</span>, callBack, year, monthOfYear, dayOfMonth);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>而实际上OnDateSetListener的注释里却是这样的：</p>
+<figure class="highlight zephir"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">OnDateSetListener</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span><br><span class="line">     * <span class="doctag">@param</span> view The view associated with this listener.</span><br><span class="line">     * <span class="doctag">@param</span> year The year that was set.</span><br><span class="line">     * <span class="doctag">@param</span> monthOfYear The month that was set (0-11) for compatibility</span><br><span class="line">     *  with &#123;<span class="doctag">@link</span> java.util.Calendar&#125;.</span><br><span class="line">     * <span class="doctag">@param</span> dayOfMonth The day of the month that was set.</span><br><span class="line">     */</span></span><br><span class="line">    void onDateSet(DatePicker view, <span class="keyword">int</span> year, <span class="keyword">int</span> monthOfYear, <span class="keyword">int</span> dayOfMonth);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>所以monthOfYear， 是从0开始的。但是dayOfMonth，却是从1开始的。所以在OnDateSetListener的回调中获取真实月份是要加一的：monthOfYear + 1。</p>
+<p>接着说第二个坑：</p>
+<ol>
+<li>设置可选的最大时间：</li>
+</ol>
+<p>先在DatePickerDialog找到DatePicker吧，然后调用setMaxDate();</p>
+<p>如果去搜索“DatePickerDialog设置最大日期”，会找到如下方法：</p>
+<p>在show的时机调用：</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="title">findDatePicker</span><span class="params">((ViewGroup)</span></span> <span class="function"><span class="title">getWindow</span><span class="params">()</span></span>.<span class="function"><span class="title">getDecorView</span><span class="params">()</span></span>)</span><br></pre></td></tr></table></figure>
+<p>findDatePicker的实现：</p>
+<figure class="highlight nimrod"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">private <span class="type">DatePicker</span> findDatePicker(<span class="type">ViewGroup</span> group) &#123;</span><br><span class="line">    <span class="keyword">if</span> (group != null) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>, j = group.getChildCount(); i &lt; j; i++) &#123;</span><br><span class="line">            <span class="type">View</span> child = group.getChildAt(i);</span><br><span class="line">            <span class="keyword">if</span> (child instanceof <span class="type">DatePicker</span>) &#123;</span><br><span class="line">                <span class="keyword">return</span> (<span class="type">DatePicker</span>) child;</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (child instanceof <span class="type">ViewGroup</span>) &#123;</span><br><span class="line">                <span class="type">DatePicker</span> <span class="literal">result</span> = findDatePicker((<span class="type">ViewGroup</span>) child);</span><br><span class="line">                <span class="keyword">if</span> (<span class="literal">result</span> != null)</span><br><span class="line">                    <span class="keyword">return</span> <span class="literal">result</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> null;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>其实不需要这么做，DatePickerDialog有获取DatePicker的方法getDatePicker()。</p>
+<p>然后如果想把可设置的最大时间设置成当天，DatePicker＃setMaxDate(System.currentTimeMillis()) ,  实际操作中发现，如果系统时间是2月29号，那么设置上去的最大的时间自动跳到下个月份。<br>所以在DatePickerDialog的初始化构造函数中执行：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Calendar</span> <span class="built_in">c</span> = <span class="type">Calendar</span>.getInstance();</span><br><span class="line"><span class="built_in">c</span>.<span class="keyword">set</span>(<span class="type">Calendar</span>.<span class="type">DAY_OF_MONTH</span>, <span class="number">1</span>); <span class="comment">// 不能设置超过28，估计跟二月限制有关</span></span><br><span class="line">getDatePicker().setMaxDate(<span class="built_in">c</span>.getTimeInMillis());</span><br></pre></td></tr></table></figure>
+<ol>
+<li>隐藏日期选择</li>
+</ol>
+<p>DatePicker一般都是可以选年／月／日的，而需求要求隐藏日控件。</p>
+<p>仔细看了下，DatePicker的源码不复杂，很快能找到一个Layout　date_picker_legacy.xml :</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="title">LinearLayout</span> <span class="attribute">xmlns:android</span>=<span class="value">"http://schemas.android.com/apk/res/android"</span></span><br><span class="line">    <span class="attribute">android:layout_width</span>=<span class="value">"fill_parent"</span></span><br><span class="line">    <span class="attribute">android:layout_height</span>=<span class="value">"fill_parent"</span></span><br><span class="line">    <span class="attribute">android:layout_gravity</span>=<span class="value">"center_horizontal"</span></span><br><span class="line">    <span class="attribute">android:orientation</span>=<span class="value">"horizontal"</span></span><br><span class="line">    <span class="attribute">android:gravity</span>=<span class="value">"center"</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="title">LinearLayout</span> <span class="attribute">android:id</span>=<span class="value">"@+id/pickers"</span></span><br><span class="line">        <span class="attribute">android:layout_width</span>=<span class="value">"wrap_content"</span></span><br><span class="line">        <span class="attribute">android:layout_height</span>=<span class="value">"wrap_content"</span></span><br><span class="line">        <span class="attribute">android:layout_weight</span>=<span class="value">"1"</span></span><br><span class="line">        <span class="attribute">android:orientation</span>=<span class="value">"horizontal"</span></span><br><span class="line">        <span class="attribute">android:gravity</span>=<span class="value">"center"</span>&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">&lt;!-- Month --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">NumberPicker</span></span><br><span class="line">            <span class="attribute">android:id</span>=<span class="value">"@+id/month"</span></span><br><span class="line">            <span class="attribute">android:layout_width</span>=<span class="value">"wrap_content"</span></span><br><span class="line">            <span class="attribute">android:layout_height</span>=<span class="value">"wrap_content"</span></span><br><span class="line">            <span class="attribute">android:layout_marginStart</span>=<span class="value">"1dip"</span></span><br><span class="line">            <span class="attribute">android:layout_marginEnd</span>=<span class="value">"1dip"</span></span><br><span class="line">            <span class="attribute">android:focusable</span>=<span class="value">"true"</span></span><br><span class="line">            <span class="attribute">android:focusableInTouchMode</span>=<span class="value">"true"</span></span><br><span class="line">            /&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">&lt;!-- Day --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">NumberPicker</span></span><br><span class="line">            <span class="attribute">android:id</span>=<span class="value">"@+id/day"</span></span><br><span class="line">            <span class="attribute">android:layout_width</span>=<span class="value">"wrap_content"</span></span><br><span class="line">            <span class="attribute">android:layout_height</span>=<span class="value">"wrap_content"</span></span><br><span class="line">            <span class="attribute">android:layout_marginStart</span>=<span class="value">"1dip"</span></span><br><span class="line">            <span class="attribute">android:layout_marginEnd</span>=<span class="value">"1dip"</span></span><br><span class="line">            <span class="attribute">android:focusable</span>=<span class="value">"true"</span></span><br><span class="line">            <span class="attribute">android:focusableInTouchMode</span>=<span class="value">"true"</span></span><br><span class="line">            /&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">&lt;!-- Year --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">NumberPicker</span></span><br><span class="line">            <span class="attribute">android:id</span>=<span class="value">"@+id/year"</span></span><br><span class="line">            <span class="attribute">android:layout_width</span>=<span class="value">"wrap_content"</span></span><br><span class="line">            <span class="attribute">android:layout_height</span>=<span class="value">"wrap_content"</span></span><br><span class="line">            <span class="attribute">android:layout_marginStart</span>=<span class="value">"1dip"</span></span><br><span class="line">            <span class="attribute">android:layout_marginEnd</span>=<span class="value">"1dip"</span></span><br><span class="line">            <span class="attribute">android:focusable</span>=<span class="value">"true"</span></span><br><span class="line">            <span class="attribute">android:focusableInTouchMode</span>=<span class="value">"true"</span></span><br><span class="line">            /&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;/<span class="title">LinearLayout</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- calendar view --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">CalendarView</span></span><br><span class="line">        <span class="attribute">android:id</span>=<span class="value">"@+id/calendar_view"</span></span><br><span class="line">        <span class="attribute">android:layout_width</span>=<span class="value">"245dip"</span></span><br><span class="line">        <span class="attribute">android:layout_height</span>=<span class="value">"280dip"</span></span><br><span class="line">        <span class="attribute">android:layout_marginStart</span>=<span class="value">"44dip"</span></span><br><span class="line">        <span class="attribute">android:layout_weight</span>=<span class="value">"1"</span></span><br><span class="line">        <span class="attribute">android:focusable</span>=<span class="value">"true"</span></span><br><span class="line">        <span class="attribute">android:focusableInTouchMode</span>=<span class="value">"true"</span></span><br><span class="line">        <span class="attribute">android:visibility</span>=<span class="value">"gone"</span></span><br><span class="line">        /&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="title">LinearLayout</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>找到id为day的NumberPicker控件，隐藏即可。可以通过如下方法：</p>
+<figure class="highlight nimrod"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">private <span class="type">ViewGroup</span> findNumberPickerContainer(<span class="type">ViewGroup</span> group) &#123;</span><br><span class="line">    <span class="keyword">if</span> (group != null) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>, j = group.getChildCount(); i &lt; j; i++) &#123;</span><br><span class="line">            <span class="type">View</span> child = group.getChildAt(i);</span><br><span class="line">            <span class="keyword">if</span> (child instanceof <span class="type">NumberPicker</span>) &#123;</span><br><span class="line">                <span class="keyword">return</span> group;</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (child instanceof <span class="type">ViewGroup</span>) &#123;</span><br><span class="line">                <span class="type">ViewGroup</span> <span class="literal">result</span> = findNumberPickerContainer((<span class="type">ViewGroup</span>) child);</span><br><span class="line">                <span class="keyword">if</span> (<span class="literal">result</span> != null) &#123;</span><br><span class="line">                    <span class="keyword">return</span> <span class="literal">result</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> null;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>或者更直接一点findViewById，不过这么做都是有坑的。</p>
+
+      
+    </div>
+    
+    
+      <footer class="article-footer">
+        
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android-Widget/">Android Widget</a></li></ul>
+
+      </footer>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/03/29/android-permission-control/" id="article-nav-newer" class="article-nav-link-wrap">
+      <div class="article-nav-title"><span>&lt;</span>&nbsp;
+        
+          打开Android权限管理器
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/03/28/activity-lifecircle-onresume/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">在onResume刷新View？&nbsp;<span>&gt;</span></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2016 Fanny Lan&nbsp;
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>, theme by <a href="http://github.com/ppoffice">PPOffice</a>
+    </div>
+  </div>
+</footer>
+    
+
+<script src="/js/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+  <script src="/fancybox/jquery.fancybox.pack.js" type="text/javascript"></script>
+
+
+<script src="/js/script.js" type="text/javascript"></script>
+  </div>
+</body>
+</html>

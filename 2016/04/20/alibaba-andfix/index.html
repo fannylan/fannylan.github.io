@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     
-    <title>AndFix | Fanny&#39;s</title>
+    <title>AndFix接入逻辑分析 | Fanny&#39;s</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     
         <meta name="keywords" content="Hot Fix" />
@@ -11,14 +11,14 @@
     <meta name="description" content="AndFix
 基本配置及使用方法在github上写得很清楚。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="AndFix">
+<meta property="og:title" content="AndFix接入逻辑分析">
 <meta property="og:url" content="http://yoursite.com/2016/04/20/alibaba-andfix/index.html">
 <meta property="og:site_name" content="Fanny's">
 <meta property="og:description" content="AndFix
 基本配置及使用方法在github上写得很清楚。">
-<meta property="og:updated_time" content="2016-04-22T11:00:58.285Z">
+<meta property="og:updated_time" content="2016-05-03T11:03:35.380Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="AndFix">
+<meta name="twitter:title" content="AndFix接入逻辑分析">
 <meta name="twitter:description" content="AndFix
 基本配置及使用方法在github上写得很清楚。">
     
@@ -117,7 +117,7 @@
                 
     
         <h1 class="article-title" itemprop="name">
-        AndFix
+        AndFix接入逻辑分析
         </h1>
     
 
@@ -133,39 +133,36 @@
         </div>
         <div class="article-entry" itemprop="articleBody">
             <p><a href="https://github.com/alibaba/AndFix" target="_blank" rel="external">AndFix</a></p>
-<p>基本配置及使用方法在github上写得很清楚。<br><a id="more"></a><br>这边写一下引入具体实际项目的方式和细节，以及一些要注意的问题：</p>
-<ol>
-<li>Gradle配置</li>
-</ol>
+<p>基本配置及使用方法在github上写得很清楚。</p>
+<a id="more"></a>
+<p>这边写一下引入具体实际项目的方式和细节，以及一些要注意的问题：</p>
+<p><strong>Gradle配置</strong></p>
 <figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="title">compile</span> <span class="string">'com.alipay.euler:andfix:0.4.0<span class="variable">@aar</span>'</span></span><br></pre></td></tr></table></figure>
-<ol>
-<li>proguard-rules.pro配置</li>
-</ol>
+<p><strong>proguard-rules.pro配置</strong></p>
 <figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">-dontwarn android.annotation</span><br><span class="line">-dontwarn com.alipay.euler.**</span><br><span class="line">-keep <span class="class"><span class="keyword">class</span> <span class="title">com</span>.<span class="title">alipay</span>.<span class="title">euler</span>.<span class="title">**</span> &#123;</span>*;&#125;</span><br><span class="line">-keep <span class="class"><span class="keyword">class</span> <span class="title">*</span> <span class="keyword"><span class="keyword">extends</span></span> <span class="title">java</span>.<span class="title">lang</span>.<span class="title">annotation</span>.<span class="title">Annotation</span></span><br><span class="line"></span>-keepclasseswithmembernames <span class="class"><span class="keyword">class</span> <span class="title">*</span> &#123;</span></span><br><span class="line">    native &lt;methods&gt;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">#-applymapping build\mapping.txt</span><br></pre></td></tr></table></figure>
-<p>在需要发补丁包的时候，把上次打包的mapping.txt文件拷贝出来放到build目录下（或者其他），同时打开 “-applymapping build\mapping.txt”这项配置，再打包。</p>
-<ol>
-<li><p>用未加固的包生成patch文件</p>
-<p>实际测试过加固的包生成的patch文件无法使用。</p>
-</li>
-<li><p>把patch文件修改后缀*.zip，用jadx工具查看，因为没有加固生成的patch包，因此可以看到混淆后发生改动的整个类的代码。在修改的函数前会有一句这样的：</p>
-</li>
-</ol>
+<p>在需要发补丁包的时候，把上次打Release包的mapping.txt文件拷贝出来放到build目录下（或者其他），同时打开 “-applymapping build\mapping.txt”这项配置，再打包。由此可以看出在打Release包的补丁中增加新的类是会出错的。</p>
+<p><strong>用未加固的包生成patch文件</strong></p>
+<p>实际测试过加固的包生成的patch文件加载后改动不生效。</p>
+<p>把经过上述提示生成的.apatch文件修改后缀成*.zip，用jadx工具查看，因此可以看到混淆后发生改动的整个类的代码。在修改的函数前会有一句这样的代码：</p>
 <figure class="highlight nimrod"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@<span class="type">MethodReplace</span>(clazz = <span class="string">"classPath/className"</span>, <span class="keyword">method</span> = <span class="string">"methodName"</span>)</span><br></pre></td></tr></table></figure>
-<p>因此，如果一个类中有两个同名函数，会出问题，比如基类有个private methodA(), 子类也有一个public methodA()。就会有问题，表现就是打了补丁之后会crash。</p>
-<ol>
-<li>打补丁接口设计</li>
-</ol>
-<p>加载patch的关键代码<br><figure class="highlight aspectj"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">PatchManager patchManager = <span class="keyword">new</span> PatchManager(<span class="keyword">this</span>);</span><br><span class="line">patchManager.init(appVersion);</span><br><span class="line">patchManager.loadPatch();</span><br><span class="line">  </span><br><span class="line"> </span><br><span class="line">  <span class="comment">// add patch at runtime</span></span><br><span class="line">  <span class="keyword">try</span> &#123;</span><br><span class="line">      String patchFileString = Environment.getExternalStorageDirectory()</span><br><span class="line">              .getAbsolutePath() + <span class="string">"/out.apatch"</span>;</span><br><span class="line">      patchManager.addPatch(patchFileString);</span><br><span class="line">  &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">      logger.<span class="keyword">error</span>(e.toString(), e);</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure></p>
-<p>先看PatchManager的初始化:</p>
+<p>因此，如果一个类中有两个同名函数，会有问题，比如基类有个private methodA(), 子类也有一个public methodA()。经过测试后发现其表现就是打了补丁之后触发改函数时会crash。</p>
+<p><strong>加载patch逻辑分析</strong></p>
+<p>先看一下加载patch的关键代码，这个初始化的位置一般是在Application onCreate的时候执行，可以在Release包中才有这个逻辑，以下代码的主要逻辑是初始化PatchManager，加载已有的patches。</p>
+<figure class="highlight dns"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">PatchManager patchManager = new PatchManager(this)<span class="comment">;</span></span><br><span class="line">patchManager.init(appVersion)<span class="comment">;</span></span><br><span class="line">patchManager.loadPatch()<span class="comment">;</span></span><br></pre></td></tr></table></figure>
+<p>PatchManager的初始化，新的.apatch文件的应用内缓存目录是data/packagename/DIR，而patches的内存缓存是有序的:</p>
 <figure class="highlight aspectj"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">PatchManager</span><span class="params">(Context context)</span> </span>&#123;</span><br><span class="line">	mContext = context;</span><br><span class="line">	mAndFixManager = <span class="keyword">new</span> AndFixManager(mContext);</span><br><span class="line">	mPatchDir = <span class="keyword">new</span> File(mContext.getFilesDir(), DIR);</span><br><span class="line">	mPatchs = <span class="keyword">new</span> ConcurrentSkipListSet&lt;Patch&gt;();</span><br><span class="line">	mLoaders = <span class="keyword">new</span> ConcurrentHashMap&lt;String, ClassLoader&gt;();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>可以看出.apatch文件是加载在data/packagename/apatch目录下的。</p>
+<p>初始化PatchManager的时候传入了一个版本号，该版本号是patches的版本号，应该和当前应用的代码版本号相符，即patches是基于该代码版本的补丁。<br>然后根据版本号判断对已存在patch的处理，初始化已经加载过的patches到PatchManager。<br>同一个代码版本号可以有多个patch。看PatchManager的源码可以看到patches的数据结构是SortedSet，而load patch的顺序是按照Patch文件的生成时间来排序的。因此最终生效的补丁包应该是最新的那个包。</p>
 <figure class="highlight lasso"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="literal">void</span> init(<span class="built_in">String</span> appVersion) &#123;</span><br><span class="line">	<span class="keyword">if</span> (<span class="subst">!</span>mPatchDir<span class="built_in">.</span>exists() <span class="subst">&amp;&amp;</span> <span class="subst">!</span>mPatchDir<span class="built_in">.</span>mkdirs()) &#123;<span class="comment">// make directory fail</span></span><br><span class="line">		<span class="keyword">Log</span><span class="built_in">.</span>e(<span class="built_in">TAG</span>, <span class="string">"patch dir create error."</span>);</span><br><span class="line">		<span class="keyword">return</span>;</span><br><span class="line">	&#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="subst">!</span>mPatchDir<span class="built_in">.</span>isDirectory()) &#123;<span class="comment">// not directory</span></span><br><span class="line">		mPatchDir<span class="built_in">.</span>delete();</span><br><span class="line">		<span class="keyword">return</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	SharedPreferences sp = mContext<span class="built_in">.</span>getSharedPreferences(SP_NAME,</span><br><span class="line">			Context<span class="built_in">.</span>MODE_PRIVATE);</span><br><span class="line">	<span class="built_in">String</span> ver = sp<span class="built_in">.</span>getString(SP_VERSION, <span class="built_in">null</span>);</span><br><span class="line">	<span class="keyword">if</span> (ver == <span class="built_in">null</span> <span class="subst">||</span> <span class="subst">!</span>ver<span class="built_in">.</span>equalsIgnoreCase(appVersion)) &#123;</span><br><span class="line">		cleanPatch();</span><br><span class="line">		sp<span class="built_in">.</span>edit()<span class="built_in">.</span>putString(SP_VERSION, appVersion)<span class="built_in">.</span>commit();</span><br><span class="line">	&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">		initPatchs();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>可以看出init的时候传入了一个版本号，然后根据版本号判断对已有patch的处理，初始化已经加载过的patches到PatchManager。同一个版本可以有多个patch。</p>
-<p>因此appversion应该传入的是代码版本号。即patches是是基于该版本的补丁。</p>
+<p>加载新patch：</p>
+<figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">try &#123;</span><br><span class="line">    String patchFileString = Environment.getExternalStorageDirectory()</span><br><span class="line">            .getAbsolutePath() + <span class="string">"/out.apatch"</span>;</span><br><span class="line">    patchManager.addPatch(patchFileString);</span><br><span class="line">&#125; catch (IOException <span class="keyword">e</span>) &#123;</span><br><span class="line">    logger.<span class="keyword">error</span>(<span class="keyword">e</span>.<span class="keyword">toString</span>(), <span class="keyword">e</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>看addPatch的逻辑可以看出加载patch的时候，是先拷贝到data目录下的patch文件夹，之后便不需要重复拷贝了。判断是否拷贝过的依据就是patch的文件名。</p>
+<p>接口上还是传代码版本号获取该版本对应的最新的补丁，服务器上补丁文件名为appversion.apatch，但是PatchManassger里addPatch的逻辑是通过文件名判断该patch是否加载过。</p>
+<p>所以最新的补丁文件名最好是appversion+patchMD5的组合。才能保证说补丁能够及时更新。</p>
 <figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> addPatch(String path) <span class="keyword">throws</span> IOException &#123;</span><br><span class="line">	<span class="keyword">File</span> src = <span class="keyword">new</span> <span class="keyword">File</span>(path);</span><br><span class="line">	<span class="keyword">File</span> dest = <span class="keyword">new</span> <span class="keyword">File</span>(mPatchDir, src.getName());</span><br><span class="line">	<span class="keyword">if</span>(!src.exists())&#123;</span><br><span class="line">		<span class="keyword">throw</span> <span class="keyword">new</span> FileNotFoundException(path);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> (dest.exists()) &#123;</span><br><span class="line">		Log.d(TAG, <span class="string">"patch ["</span> + path + <span class="string">"] has be loaded."</span>);</span><br><span class="line">		<span class="keyword">return</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	FileUtil.copyFile(src, dest);<span class="comment">// copy to patch's directory</span></span><br><span class="line">	Patch patch = addPatch(dest);</span><br><span class="line">	<span class="keyword">if</span> (patch != <span class="keyword">null</span>) &#123;</span><br><span class="line">		loadPatch(patch);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>在从服务器获取到patch后存在本地，拷贝到patch文件夹，之后便不需要重复下载了。</p>
-<p>接口上还是传appversion获取该版本对应的最新的补丁，服务器上补丁文件名为appversion.apatch，但是PatchManassger里addPatch的逻辑是通过文件名判断该patch是否加载过。所以最新的补丁文件名最好是appversion+patchMD5的组合。才能保证说补丁能够及时更新。</p>
-<p>为了不重复下载，在接口上可以多加一个参数。最好能判断当前运行的app版本是打了补丁的。</p>
+<p><strong>打补丁接口设计</strong></p>
+<p>该patch接口的设计需要满足</p>
+<p>1.发布patch之后需要客户端对应的版本能够即时更新，可以通过定时检查的方式（最简单的方式）。</p>
+<p>2.获取patch的接口可以有两个参数，一个是当前的代码版本号，另一个是本地最新已加载的patch文件的MD5，如果客户端传的和服务器上的patch不一致才返回新的，patch文件。</p>
 
         </div>
         <footer class="article-footer">
@@ -173,7 +170,7 @@
 
 
 
-    <a data-url="http://yoursite.com/2016/04/20/alibaba-andfix/" data-id="cingv9siw000vb8fp9mf9a7kg" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
+    <a data-url="http://yoursite.com/2016/04/20/alibaba-andfix/" data-id="cinrbulur000voofp47bodwsq" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
 <script>
     (function ($) {
         $('body').on('click', function() {
@@ -308,7 +305,7 @@
                         
                         <div class="item-inner">
                             <p class="item-category"><a class="article-category-link" href="/categories/Android-Dev/">Android Dev</a></p>
-                            <p class="item-title"><a href="/2016/04/20/alibaba-andfix/" class="title">AndFix</a></p>
+                            <p class="item-title"><a href="/2016/04/20/alibaba-andfix/" class="title">AndFix接入逻辑分析</a></p>
                             <p class="item-date"><time datetime="2016-04-19T23:22:48.000Z" itemprop="datePublished">2016-04-20</time></p>
                         </div>
                     </li>
